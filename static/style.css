@@ -1,0 +1,544 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #F7F7F5;
+    min-height: 100vh;
+    padding: 20px;
+    color: #1A1A1A;
+    overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: #1A1A1A;
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    max-width: 700px;
+    width: 100%;
+    margin: 30px auto;
+}
+
+.card {
+    aspect-ratio: 1.5 / 1;
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    position: relative;
+}
+
+.card:hover {
+    background: #FAFAFA;
+    border-color: #6B7F5C;
+    transform: translateY(-2px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card:active {
+    transform: translateY(0);
+}
+
+.card span {
+    padding: 12px;
+    text-align: center;
+    color: #1A1A1A;
+}
+
+/* Revealed card states */
+.card.revealed {
+    cursor: default;
+}
+
+.card.revealed:hover {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.card.revealed.red {
+    background: #D97D7D;
+    border-color: #B85C5C;
+    color: #FFFFFF;
+}
+
+.card.revealed.red span {
+    color: #FFFFFF;
+}
+
+.card.revealed.blue {
+    background: #7D9FC4;
+    border-color: #5B7FA3;
+    color: #FFFFFF;
+}
+
+.card.revealed.blue span {
+    color: #FFFFFF;
+}
+
+.card.revealed.neutral {
+    background: #D4D4D4;
+    border-color: #B3B3B3;
+}
+
+.card.revealed.neutral span {
+    color: #4A4A4A;
+}
+
+.card.revealed.assassin {
+    background: #4A4A4A;
+    border-color: #2A2A2A;
+}
+
+.card.revealed.assassin span {
+    color: #FFFFFF;
+}
+
+.card.revealed.assassin::after {
+    content: '💀';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 50px;
+    opacity: 0.4;
+    z-index: 0;
+}
+
+/* Spymaster view - show team colors */
+.spymaster-grid .card[data-team="red"]:not(.revealed) {
+    background: #F5E6E6;
+    border-color: #D97D7D;
+    border-width: 3px;
+}
+
+.spymaster-grid .card[data-team="blue"]:not(.revealed) {
+    background: #E6EFF5;
+    border-color: #7D9FC4;
+    border-width: 3px;
+}
+
+.spymaster-grid .card[data-team="neutral"]:not(.revealed) {
+    background: #F5F5F5;
+    border-color: #D4D4D4;
+    border-width: 3px;
+}
+
+.spymaster-grid .card[data-team="assassin"]:not(.revealed) {
+    background: #E6E6E6;
+    border-color: #4A4A4A;
+    border-width: 3px;
+}
+
+.spymaster-grid .card[data-team="assassin"]:not(.revealed)::after {
+    content: '💀';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    font-size: 20px;
+    opacity: 0.5;
+}
+
+/* Cursor container */
+#cursor-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+}
+
+.player-cursor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 100;
+    font-size: 24px;
+    transform: translate(-2px, -2px);
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    transition: all 0.1s ease;
+}
+
+.player-cursor::before {
+    content: '👆';
+}
+
+/* Game Controls */
+#game-controls {
+    max-width: 1200px;
+    margin: 0 auto 24px;
+}
+
+.score-board {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+/* Game layout with sidebar for spymaster */
+.game-layout {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.game-main {
+    flex: 1;
+}
+
+.game-sidebar {
+    position: sticky;
+    top: 20px;
+}
+
+.team-score {
+    flex: 1;
+    max-width: 220px;
+    padding: 16px 20px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #FFFFFF;
+    border: 2px solid #E5E5E5;
+    transition: all 0.15s ease;
+}
+
+.team-score.red-team {
+    border-color: #D97D7D;
+}
+
+.team-score.blue-team {
+    border-color: #7D9FC4;
+}
+
+.team-score.active-team {
+    background: #FAFAFA;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.team-score.red-team.active-team {
+    background: #F5E6E6;
+}
+
+.team-score.blue-team.active-team {
+    background: #E6EFF5;
+}
+
+.team-icon {
+    font-size: 24px;
+}
+
+.team-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: #1A1A1A;
+    flex: 1;
+    letter-spacing: 0.3px;
+}
+
+.team-remaining {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1A1A1A;
+}
+
+.turn-indicator {
+    text-align: center;
+    padding: 12px 20px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    font-weight: 600;
+    border: 2px solid;
+    background: #FFFFFF;
+}
+
+.clue-display {
+    background: #FFFFFF;
+    padding: 16px 20px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    text-align: center;
+    border: 2px solid #6B7F5C;
+}
+
+.clue-text {
+    font-size: 18px;
+    color: #1A1A1A;
+    margin-bottom: 6px;
+}
+
+.clue-text strong {
+    color: #6B7F5C;
+    font-size: 20px;
+}
+
+.guesses-info {
+    font-size: 13px;
+    color: #666666;
+}
+
+.clue-form {
+    background: #FFFFFF;
+    padding: 20px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    border: 2px solid #E5E5E5;
+}
+
+.clue-form h3 {
+    text-align: center;
+    color: #1A1A1A;
+    margin-bottom: 16px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.clue-inputs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 8px;
+}
+
+.clue-inputs input[type="text"] {
+    flex: 1;
+    max-width: 250px;
+    padding: 10px 14px;
+    border: 2px solid #E5E5E5;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    transition: border-color 0.15s ease;
+}
+
+.clue-inputs input[type="text"]:focus {
+    outline: none;
+    border-color: #6B7F5C;
+}
+
+.clue-inputs input[type="number"] {
+    width: 70px;
+    padding: 10px 14px;
+    border: 2px solid #E5E5E5;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    transition: border-color 0.15s ease;
+}
+
+.clue-inputs input[type="number"]:focus {
+    outline: none;
+    border-color: #6B7F5C;
+}
+
+.clue-btn {
+    padding: 10px 28px;
+    background: #6B7F5C;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.clue-btn:hover {
+    background: #5A6B4D;
+}
+
+.clue-btn:active {
+    transform: translateY(1px);
+}
+
+.clue-rules {
+    text-align: center;
+    font-size: 12px;
+    color: #666666;
+}
+
+.end-turn-btn {
+    display: block;
+    margin: 0 auto 16px;
+    padding: 10px 32px;
+    background: #8B9A7E;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.end-turn-btn:hover {
+    background: #7A8A6D;
+}
+
+.end-turn-btn:active {
+    transform: translateY(1px);
+}
+
+/* Game Over Overlay */
+.game-over-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+}
+
+.game-over-modal {
+    background: #FFFFFF;
+    padding: 40px 50px;
+    border-radius: 4px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border: 1px solid #E5E5E5;
+}
+
+.game-over-modal h1 {
+    font-size: 32px;
+    margin-bottom: 16px;
+    font-weight: 700;
+}
+
+.game-over-modal p {
+    font-size: 16px;
+    color: #666666;
+    margin-bottom: 24px;
+}
+
+.play-again-btn {
+    padding: 12px 40px;
+    background: #6B7F5C;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.play-again-btn:hover {
+    background: #5A6B4D;
+}
+
+.play-again-btn:active {
+    transform: translateY(1px);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .game-layout {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .game-sidebar {
+        position: static;
+    }
+
+    .grid {
+        gap: 12px;
+    }
+
+    .card {
+        font-size: 16px;
+    }
+
+    h1 {
+        font-size: 36px;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid {
+        gap: 10px;
+        padding: 15px;
+    }
+
+    .card {
+        font-size: 14px;
+        border-width: 2px;
+    }
+
+    h1 {
+        font-size: 28px;
+        letter-spacing: 2px;
+    }
+
+    .spymaster-note {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .grid {
+        gap: 8px;
+        padding: 10px;
+    }
+
+    .card {
+        font-size: 12px;
+    }
+
+    .card span {
+        padding: 8px;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codenames - Player</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Codenames</h1>
+        <div id="game-info" style="text-align: center; color: #666666; margin-bottom: 20px; font-size: 14px; font-weight: 500;">
+            Game: <span style="font-weight: 600; color: #1A1A1A;">{{ game_id }}</span> · Player View
+        </div>
+
+        <!-- Game controls (turn info, clues, etc.) -->
+        <div id="game-controls"></div>
+
+        <div id="game-board" class="grid">
+            <!-- Cards will be added here by JavaScript -->
+        </div>
+    </div>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        const GAME_ID = "{{ game_id }}";
+        const IS_SPYMASTER = false;
+    </script>
+    <script src="{{ url_for('static', filename='game.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,210 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    background: #F7F7F5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1A1A1A;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.landing-container {
+    text-align: center;
+    background: #FFFFFF;
+    padding: 60px 70px;
+    border-radius: 4px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    border: 1px solid #E5E5E5;
+    max-width: 550px;
+    width: 90%;
+}
+
+.title-section {
+    margin-bottom: 40px;
+    transition: opacity 0.3s ease;
+}
+
+.main-title {
+    font-size: 48px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    color: #1A1A1A;
+    margin-bottom: 8px;
+}
+
+.subtitle {
+    font-size: 16px;
+    color: #666666;
+    letter-spacing: 0.3px;
+    font-weight: 500;
+}
+
+.game-entry {
+    margin-top: 32px;
+}
+
+.instructions {
+    color: #666666;
+    font-size: 15px;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+.input-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    align-items: stretch;
+}
+
+#gameId {
+    flex: 1;
+    max-width: 300px;
+    padding: 12px 16px;
+    font-size: 16px;
+    border: 2px solid #E5E5E5;
+    border-radius: 4px;
+    background: #FFFFFF;
+    color: #1A1A1A;
+    text-align: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: border-color 0.15s ease;
+    outline: none;
+}
+
+#gameId::placeholder {
+    color: #999999;
+    text-transform: none;
+    font-weight: 500;
+}
+
+#gameId:focus {
+    border-color: #6B7F5C;
+}
+
+#goButton {
+    padding: 12px 32px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 4px;
+    background: #6B7F5C;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+#goButton:hover {
+    background: #5A6B4D;
+}
+
+#goButton:active {
+    transform: translateY(1px);
+}
+
+.role-selection {
+    margin-top: 24px;
+}
+
+.role-prompt {
+    color: #1A1A1A;
+    font-size: 16px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.role-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.role-btn {
+    padding: 24px 32px;
+    border: 2px solid #E5E5E5;
+    border-radius: 4px;
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    min-width: 160px;
+}
+
+.role-btn:hover {
+    transform: translateY(-2px);
+    background: #FAFAFA;
+    border-color: #6B7F5C;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.role-btn:active {
+    transform: translateY(0);
+}
+
+.role-icon {
+    font-size: 40px;
+}
+
+.role-name {
+    font-size: 16px;
+    color: #1A1A1A;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+.player-btn:hover {
+    border-color: #7D9FC4;
+}
+
+.spymaster-btn:hover {
+    border-color: #D97D7D;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .landing-container {
+        padding: 40px 30px;
+    }
+
+    .main-title {
+        font-size: 70px;
+        letter-spacing: 4px;
+    }
+
+    .subtitle {
+        font-size: 18px;
+    }
+
+    .input-container {
+        flex-direction: column;
+    }
+
+    #gameId {
+        max-width: 100%;
+    }
+
+    .role-buttons {
+        flex-direction: column;
+    }
+
+    .role-btn {
+        width: 100%;
+    }
+}

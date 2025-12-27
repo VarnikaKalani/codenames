@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Codenames</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Staatliches&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='landing.css') }}">
+</head>
+<body>
+    <div class="landing-container">
+        <div class="title-section">
+            <h1 class="main-title">Codenames</h1>
+            <p class="subtitle">The classic word game</p>
+        </div>
+
+        <div class="game-entry">
+            <p class="instructions">To create a new game or join an existing game, enter a game identifier and click 'GO'.</p>
+            <div class="input-container">
+                <input type="text" id="gameId" placeholder="Enter Game ID" maxlength="20" autofocus>
+                <button id="goButton" onclick="joinGame()">GO</button>
+            </div>
+        </div>
+
+        <div class="role-selection" id="roleSelection" style="display: none;">
+            <p class="role-prompt">Select your role:</p>
+            <div class="role-buttons">
+                <button class="role-btn player-btn" onclick="enterGame('player')">
+                    <span class="role-icon">👥</span>
+                    <span class="role-name">PLAYER</span>
+                </button>
+                <button class="role-btn spymaster-btn" onclick="enterGame('spymaster')">
+                    <span class="role-icon">🕵️</span>
+                    <span class="role-name">SPYMASTER</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentGameId = '';
+
+        function joinGame() {
+            const gameId = document.getElementById('gameId').value.trim();
+            if (gameId) {
+                currentGameId = gameId;
+                document.querySelector('.title-section').style.opacity = '0.5';
+                document.querySelector('.game-entry').style.display = 'none';
+                document.getElementById('roleSelection').style.display = 'block';
+            } else {
+                alert('Please enter a game ID');
+            }
+        }
+
+        function enterGame(role) {
+            if (currentGameId) {
+                window.location.href = `/${role}/${currentGameId}`;
+            }
+        }
+
+        // Allow Enter key to submit
+        document.getElementById('gameId').addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                joinGame();
+            }
+        });
+    </script>
+</body>
+</html>
